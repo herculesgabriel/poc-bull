@@ -1,7 +1,7 @@
 import { Job, DoneCallback } from 'bull';
 
 import { addUser } from './addUser';
-import { delay } from './utils';
+import { delay, succeededJob } from './utils';
 
 export const reportingProgress = async (job: Job, done: DoneCallback) => {
   console.log('Vou começar as atividades...');
@@ -41,4 +41,21 @@ export const callingDoneWithResultData = async (job: Job, done: DoneCallback) =>
 
   console.log('Vou chamar o done...');
   done(null, { status: 'Deu bom!' });
+};
+
+export const returningPromise = async (job: Job) => {
+  console.log('Começando a tarefa...');
+
+  await delay();
+
+  const serviceStatus = succeededJob();
+  if (serviceStatus === 'pending') {
+    return Promise.reject({ status: 'Deu ruim' });
+  }
+
+  if (serviceStatus === 'failure') {
+    throw new Error('Deu muito ruim');
+  }
+
+  return Promise.resolve({ status: 'Deu bom!' });
 };
