@@ -19,9 +19,9 @@ addUserQueue.on('failed', onFailEvent);
 
 const data = { name: 'Hercules', age: 24 };
 
-addUserQueue.add(data, jobOptions);
-
-// addUserQueue.process(reportingProgress);
-// addUserQueue.process(callingDoneLater);
+addUserQueue.process(reportingProgress);
 // addUserQueue.process(callingDoneWithResultData);
-addUserQueue.process(returningPromise);
+// addUserQueue.process(callingDoneLater);
+// addUserQueue.process(returningPromise);
+
+addUserQueue.add(data, jobOptions);
