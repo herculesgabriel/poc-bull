@@ -49,6 +49,7 @@ export const returningPromise = async (job: Job) => {
   await delay();
 
   const serviceStatus = succeededJob();
+
   if (serviceStatus === 'pending') {
     return Promise.reject({ status: 'Deu ruim' });
   }
@@ -58,4 +59,22 @@ export const returningPromise = async (job: Job) => {
   }
 
   return Promise.resolve({ status: 'Deu bom!' });
+};
+
+export const throwableJob = async (job: Job, done: DoneCallback) => {
+  console.log('Começando a tarefa throwable job...');
+
+  await delay();
+
+  const serviceStatus = succeededJob();
+
+  if (serviceStatus === 'pending') {
+    return done(new Error('Deu ruim'));
+  }
+
+  if (serviceStatus === 'failure') {
+    throw new Error('Deu muito ruim');
+  }
+
+  done(null, { status: 'Deu bom!' });
 };
